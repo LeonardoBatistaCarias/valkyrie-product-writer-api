@@ -1,0 +1,20 @@
+serviceName: writer_service
+grpc:
+  port: :5002
+  development: true
+postgres:
+  host: localhost
+  port: 5432
+  user: postgres
+  password: postgres
+  dbName: products
+  sslMode: false
+kafka:
+  brokers: [ "localhost:9092" ]
+  groupID: product_core_writer_api_consumer
+  initTopics: true
+kafkaTopics:
+  productCreate:
+    topicName: product_create
+    partitions: 10
+    replicationFactor: 1

@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package writerService;
+
+option go_package = "./;writerService";
+
+message Product {
+  string ProductID = 1;
+  string Name = 2;
+  string Description = 3;
+  double Price = 4;
+  string CreatedAt = 6;
+  string UpdatedAt = 7;
+  string DeletedAt = 8;
+}
+
+message CreateProductReq {
+  string ProductID = 1;
+  string Name = 2;
+  string Description = 3;
+  double Price = 4;
+  string CreatedAt = 6;
+  string UpdatedAt = 7;
+  string DeletedAt = 8;
+}
+
+message CreateProductRes {
+  string ProductID = 1;
+}
