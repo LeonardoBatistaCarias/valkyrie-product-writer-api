@@ -2,6 +2,11 @@ package server
 
 import (
 	"context"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/application/commands"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/application/commands/create"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/config"
@@ -13,10 +18,6 @@ import (
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/pkg/errors"
 	"github.com/segmentio/kafka-go"
-	"log"
-	"os"
-	"os/signal"
-	"syscall"
 )
 
 type server struct {
@@ -59,9 +60,6 @@ func (s *server) Run() error {
 	if s.cfg.Kafka.InitTopics {
 		s.initKafkaTopics(ctx)
 	}
-
-	s.runHealthCheck(ctx)
-	s.runMetrics(cancel)
 
 	<-ctx.Done()
 

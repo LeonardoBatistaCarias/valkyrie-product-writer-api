@@ -3,12 +3,14 @@ package config
 import (
 	"flag"
 	"fmt"
+	"os"
+
+	"github.com/pkg/errors"
+
 	kafkaClient "github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/kafka"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/postgres"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/utils/constants"
-	"github.com/pkg/errors"
 	"github.com/spf13/viper"
-	"os"
 )
 
 var configPath string
@@ -49,7 +51,7 @@ func InitConfig() (*Config, error) {
 			if err != nil {
 				return nil, fmt.Errorf("os.Getwd", err)
 			}
-			configPath = fmt.Sprintf("%s/cmd/infrastructure/config/config.yaml", getwd)
+			configPath = fmt.Sprintf("%s/infrastructure/config/config.yaml", getwd)
 		}
 	}
 
@@ -59,7 +61,7 @@ func InitConfig() (*Config, error) {
 	viper.SetConfigFile(configPath)
 
 	if err := viper.ReadInConfig(); err != nil {
-		return nil, errors.Wrap(err, "viper.ReadInConfig")
+		return nil, errors.Wrapf(err, "viper.ReadInConfig")
 	}
 
 	if err := viper.Unmarshal(cfg); err != nil {

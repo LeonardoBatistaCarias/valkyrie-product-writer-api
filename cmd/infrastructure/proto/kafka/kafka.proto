@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "kafkaMessages";
+option go_package = "./;kafkaMessages";
 
 message ProductCreate {
   string ProductID = 1;

@@ -3,10 +3,11 @@ package kafka
 import (
 	"context"
 	"fmt"
+	"sync"
+
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/application/commands"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/config"
 	"github.com/segmentio/kafka-go"
-	"sync"
 )
 
 const (
@@ -37,8 +38,6 @@ func (s *productMessageProcessor) ProcessMessages(ctx context.Context, r *kafka.
 			fmt.Errorf("workerID: %v, err: %v", workerID, err)
 			continue
 		}
-
-		s.logProcessMessage(m, workerID)
 
 		switch m.Topic {
 		case s.cfg.KafkaTopics.ProductCreate.TopicName:
