@@ -23,7 +23,7 @@ func (g *ProductPostgresGateway) Create(ctx context.Context, p product.Product) 
 		return err
 	}
 
-	fmt.Println("Product created %s", product.Name)
+	fmt.Printf("Product %s created", product.Name)
 
 	return nil
 }
