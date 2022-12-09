@@ -33,12 +33,9 @@ type GRPC struct {
 }
 
 type KafkaTopics struct {
-	ProductCreate  kafkaClient.TopicConfig `mapstructure:"productCreate"`
-	ProductCreated kafkaClient.TopicConfig `mapstructure:"productCreated"`
-	ProductUpdate  kafkaClient.TopicConfig `mapstructure:"productUpdate"`
-	ProductUpdated kafkaClient.TopicConfig `mapstructure:"productUpdated"`
-	ProductDelete  kafkaClient.TopicConfig `mapstructure:"productDelete"`
-	ProductDeleted kafkaClient.TopicConfig `mapstructure:"productDeleted"`
+	ProductCreate kafkaClient.TopicConfig `mapstructure:"productCreate"`
+	ProductDelete kafkaClient.TopicConfig `mapstructure:"productDelete"`
+	ProductUpdate kafkaClient.TopicConfig `mapstructure:"productUpdate"`
 }
 
 func InitConfig() (*Config, error) {

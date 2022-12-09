@@ -17,13 +17,23 @@ func NewProductPostgresGateway(pgRepo repository.Repository) *ProductPostgresGat
 	}
 }
 
-func (g *ProductPostgresGateway) Create(ctx context.Context, p product.Product) error {
+func (g *ProductPostgresGateway) CreateProduct(ctx context.Context, p product.Product) error {
 	product, err := g.pgRepo.CreateProduct(ctx, &p)
 	if err != nil {
 		return err
 	}
 
 	fmt.Printf("Product %s created", product.Name)
+
+	return nil
+}
+
+func (g *ProductPostgresGateway) DeleteProductByID(ctx context.Context, productID string) error {
+	if err := g.pgRepo.DeleteProductByID(ctx, productID); err != nil {
+		return err
+	}
+
+	fmt.Printf("Product with ID: %s has been deleted", productID)
 
 	return nil
 }

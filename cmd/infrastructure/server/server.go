@@ -8,7 +8,6 @@ import (
 	"syscall"
 
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/application/commands"
-	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/application/commands/create"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/config"
 	kafkaClient "github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/kafka"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/postgres"
@@ -44,8 +43,7 @@ func (s *server) Run() error {
 
 	productRepo := repository.NewProductRepository(s.cfg, pgxConn)
 	pgGateway := product.NewProductPostgresGateway(productRepo)
-	createProductCommand := create.NewCreateProductHandler(pgGateway)
-	productCommands := commands.NewProductCommands(createProductCommand)
+	productCommands := commands.NewProductCommands(pgGateway)
 	productMessageProcessor := kafkaConsumer.NewProductMessageProcessor(s.cfg, *productCommands)
 
 	log.Println("Starting Writer Kafka consumers")

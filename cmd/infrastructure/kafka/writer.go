@@ -5,7 +5,6 @@ import (
 	"github.com/segmentio/kafka-go/compress"
 )
 
-// NewWriter create new configured kafka writer
 func NewWriter(brokers []string, errLogger kafka.Logger) *kafka.Writer {
 	w := &kafka.Writer{
 		Addr:         kafka.TCP(brokers...),

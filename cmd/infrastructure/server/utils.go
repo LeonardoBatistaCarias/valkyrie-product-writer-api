@@ -60,8 +60,22 @@ func (s *server) initKafkaTopics(ctx context.Context) {
 		ReplicationFactor: s.cfg.KafkaTopics.ProductCreate.ReplicationFactor,
 	}
 
+	productDeleteTopic := kafka.TopicConfig{
+		Topic:             s.cfg.KafkaTopics.ProductDelete.TopicName,
+		NumPartitions:     s.cfg.KafkaTopics.ProductDelete.Partitions,
+		ReplicationFactor: s.cfg.KafkaTopics.ProductDelete.ReplicationFactor,
+	}
+
+	productUpdateTopic := kafka.TopicConfig{
+		Topic:             s.cfg.KafkaTopics.ProductUpdate.TopicName,
+		NumPartitions:     s.cfg.KafkaTopics.ProductUpdate.Partitions,
+		ReplicationFactor: s.cfg.KafkaTopics.ProductUpdate.ReplicationFactor,
+	}
+
 	if err := conn.CreateTopics(
 		productCreateTopic,
+		productDeleteTopic,
+		productUpdateTopic,
 	); err != nil {
 		log.Printf("kafkaConn.CreateTopics", err)
 		return
@@ -73,5 +87,7 @@ func (s *server) initKafkaTopics(ctx context.Context) {
 func (s *server) getConsumerGroupTopics() []string {
 	return []string{
 		s.cfg.KafkaTopics.ProductCreate.TopicName,
+		s.cfg.KafkaTopics.ProductDelete.TopicName,
+		s.cfg.KafkaTopics.ProductUpdate.TopicName,
 	}
 }

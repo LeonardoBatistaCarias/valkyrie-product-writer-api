@@ -28,7 +28,7 @@ func (c *createProductHandler) Handle(ctx context.Context, cmd CreateProductComm
 		uuid.NewV4(),
 		nil,
 		true)
-	c.gateway.Create(ctx, *product)
+	c.gateway.CreateProduct(ctx, *product)
 
 	return nil
 }

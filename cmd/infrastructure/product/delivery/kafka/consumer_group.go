@@ -3,7 +3,6 @@ package kafka
 import (
 	"context"
 	"fmt"
-	"log"
 	"sync"
 
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/application/commands"
@@ -42,8 +41,9 @@ func (s *productMessageProcessor) ProcessMessages(ctx context.Context, r *kafka.
 
 		switch m.Topic {
 		case s.cfg.KafkaTopics.ProductCreate.TopicName:
-			log.Print(m.Value)
 			s.processCreateProduct(ctx, r, m)
+		case s.cfg.KafkaTopics.ProductDelete.TopicName:
+			s.processDeleteProductByID(ctx, r, m)
 		}
 	}
 }

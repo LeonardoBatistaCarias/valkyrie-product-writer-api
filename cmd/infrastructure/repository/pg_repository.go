@@ -33,3 +33,11 @@ func (pr *productRepository) CreateProduct(ctx context.Context, p *product.Produ
 
 	return &created, nil
 }
+
+func (pr *productRepository) DeleteProductByID(ctx context.Context, productID string) error {
+	if _, err := pr.db.Exec(ctx, deleteProductByIdQuery, productID); err != nil {
+		return fmt.Errorf("db.QueryRow %v", err)
+	}
+
+	return nil
+}

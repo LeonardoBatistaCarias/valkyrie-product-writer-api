@@ -2,10 +2,21 @@ package kafka
 
 import (
 	"context"
+	"github.com/avast/retry-go"
+	"time"
 
 	"github.com/pkg/errors"
 
 	"github.com/segmentio/kafka-go"
+)
+
+const (
+	retryAttempts = 3
+	retryDelay    = 300 * time.Millisecond
+)
+
+var (
+	retryOptions = []retry.Option{retry.Attempts(retryAttempts), retry.Delay(retryDelay), retry.DelayType(retry.BackOffDelay)}
 )
 
 func (s *productMessageProcessor) commitMessage(ctx context.Context, r *kafka.Reader, m kafka.Message) {

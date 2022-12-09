@@ -3,10 +3,9 @@ package kafka
 import (
 	"context"
 	"fmt"
-	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/application/commands/create"
+	deleteByID "github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/application/commands/delete"
 	protoProduct "github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/proto/product"
 	"github.com/avast/retry-go"
-	uuid "github.com/satori/go.uuid"
 	"google.golang.org/grpc"
 	"log"
 
@@ -14,7 +13,7 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-func (s *productMessageProcessor) processCreateProduct(ctx context.Context, r *kafka.Reader, m kafka.Message) {
+func (s *productMessageProcessor) processDeleteProductByID(ctx context.Context, r *kafka.Reader, m kafka.Message) {
 	msg := &protoProduct.Product{}
 	if err := proto.Unmarshal(m.Value, msg); err != nil {
 		fmt.Errorf("proto.Unmarshal", err)
@@ -22,12 +21,12 @@ func (s *productMessageProcessor) processCreateProduct(ctx context.Context, r *k
 		return
 	}
 
-	command := create.NewCreateProductCommand(msg.GetName(), msg.GetDescription(), 1, msg.GetPrice(), msg.GetQuantity(), uuid.NewV4(), nil, true)
+	command := deleteByID.NewDeleteProductByIDCommand(msg.GetProductID(), msg.GetActive())
 
 	if err := retry.Do(func() error {
-		return s.commands.CreateProduct.Handle(ctx, *command)
+		return s.commands.DeleteProductByID.Handle(ctx, *command)
 	}, append(retryOptions, retry.Context(ctx))...); err != nil {
-		fmt.Errorf("CreateProduct.Handle", err)
+		fmt.Errorf("DeleteProduct.Handle", err)
 		return
 	}
 
