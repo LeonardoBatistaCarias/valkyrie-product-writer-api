@@ -37,3 +37,14 @@ func (g *ProductPostgresGateway) DeleteProductByID(ctx context.Context, productI
 
 	return nil
 }
+
+func (g *ProductPostgresGateway) UpdateProductByID(ctx context.Context, p product.Product) error {
+	product, err := g.pgRepo.UpdateProductByID(ctx, &p)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("Product %s updated", product.Name)
+
+	return nil
+}
