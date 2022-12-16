@@ -1,7 +1,5 @@
 package constants
 
-import "time"
-
 const (
 	// Config Constants
 	GRPC_PORT           = "GRPC_PORT"
@@ -12,11 +10,7 @@ const (
 	POSTGRES_SQL_PORT   = "POSTGRES_PORT"
 
 	// Kafka Config Constants
-	KAFKA_BROKERS        = "KAFKA_BROKERS"
-	WRITER_READ_TIMEOUT  = 10 * time.Second
-	WRITER_WRITE_TIMEOUT = 10 * time.Second
-	WRITER_REQUIRED_ACKS = -1
-	WRITER_MAX_ATTEMPTS  = 3
+	KAFKA_BROKERS = "KAFKA_BROKERS"
 
 	// Base Config Path
 	BASE_CONFIG_PATH = "cmd/infrastructure/config/config.yaml"

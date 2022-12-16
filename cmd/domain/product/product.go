@@ -42,7 +42,3 @@ func NewProduct(
 		Active:        active,
 	}
 }
-
-//func (p *Product) Validate(v validator.Validator) {
-//	v.Execute(*p)
-//}

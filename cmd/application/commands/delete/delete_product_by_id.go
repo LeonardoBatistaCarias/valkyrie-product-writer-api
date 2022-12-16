@@ -6,7 +6,7 @@ import (
 )
 
 type DeleteProductByIDCommandHandler interface {
-	Handle(ctx context.Context, cmd DeleteProductByIDCommand) error
+	Handle(ctx context.Context, productID string) error
 }
 
 type deleteProductByIDHandler struct {
@@ -17,8 +17,8 @@ func NewDeleteProductByIDHandler(productGateway product.ProductGateway) *deleteP
 	return &deleteProductByIDHandler{gateway: productGateway}
 }
 
-func (c *deleteProductByIDHandler) Handle(ctx context.Context, cmd DeleteProductByIDCommand) error {
-	c.gateway.DeleteProductByID(ctx, cmd.ProductID)
+func (c *deleteProductByIDHandler) Handle(ctx context.Context, productID string) error {
+	c.gateway.DeleteProductByID(ctx, productID)
 
 	return nil
 }

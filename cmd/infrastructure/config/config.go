@@ -3,11 +3,11 @@ package config
 import (
 	"flag"
 	"fmt"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/kafka"
 	"os"
 
 	"github.com/pkg/errors"
 
-	kafkaClient "github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/kafka"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/postgres"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/utils/constants"
 	"github.com/spf13/viper"
@@ -20,22 +20,22 @@ func init() {
 }
 
 type Config struct {
-	ServiceName string              `mapstructure:"serviceName"`
-	KafkaTopics KafkaTopics         `mapstructure:"kafkaTopics"`
-	GRPC        GRPC                `mapstructure:"grpc"`
-	Postgresql  *postgres.Config    `mapstructure:"postgres"`
-	Kafka       *kafkaClient.Config `mapstructure:"kafka"`
+	ServiceName string           `mapstructure:"serviceName"`
+	KafkaTopics KafkaTopics      `mapstructure:"kafkaTopics"`
+	GRPC        GRPC             `mapstructure:"grpc"`
+	Postgresql  *postgres.Config `mapstructure:"postgres"`
+	Kafka       *kafka.Config    `mapstructure:"kafka"`
 }
 
 type GRPC struct {
-	Port        string `mapstructure:"port"`
-	Development bool   `mapstructure:"development"`
+	ReaderServicePort string `mapstructure:"readerServicePort"`
 }
 
 type KafkaTopics struct {
-	ProductCreate kafkaClient.TopicConfig `mapstructure:"productCreate"`
-	ProductDelete kafkaClient.TopicConfig `mapstructure:"productDelete"`
-	ProductUpdate kafkaClient.TopicConfig `mapstructure:"productUpdate"`
+	ProductCreate     kafka.TopicConfig `mapstructure:"productCreate"`
+	ProductDelete     kafka.TopicConfig `mapstructure:"productDelete"`
+	ProductDeactivate kafka.TopicConfig `mapstructure:"productDeactivate"`
+	ProductUpdate     kafka.TopicConfig `mapstructure:"productUpdate"`
 }
 
 func InitConfig() (*Config, error) {
@@ -63,11 +63,6 @@ func InitConfig() (*Config, error) {
 
 	if err := viper.Unmarshal(cfg); err != nil {
 		return nil, errors.Wrap(err, "viper.Unmarshal")
-	}
-
-	grpcPort := os.Getenv(constants.GRPC_PORT)
-	if grpcPort != "" {
-		cfg.GRPC.Port = grpcPort
 	}
 
 	postgresHost := os.Getenv(constants.POSTGRES_SQL_HOST)

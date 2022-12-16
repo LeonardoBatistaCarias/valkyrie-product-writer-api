@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option go_package = "/pb";
+
+import "model/product_processor.proto";
+
+message CreateProductReq {
+  Product product = 1;
+}
+
+message CreateProductRes {
+  Product product = 1;
+}
+
+message DeleteProductByIDReq {
+  string productID = 1;
+}
+
+message DeleteProductByIDRes {}
+
+message UpdateProductByIDReq {
+  Product product = 1;
+}
+
+message UpdateProductByIDRes {
+  Product product = 1;
+}

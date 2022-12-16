@@ -3,8 +3,7 @@ package postgres
 import (
 	"context"
 	"fmt"
-	"time"
-
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/utils/constants"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
@@ -17,16 +16,6 @@ type Config struct {
 	Password string `yaml:"password"`
 }
 
-const (
-	maxConn           = 50
-	healthCheckPeriod = 1 * time.Minute
-	maxConnIdleTime   = 1 * time.Minute
-	maxConnLifetime   = 3 * time.Minute
-	minConn           = 10
-	lazyConnect       = false
-)
-
-// NewPgxConn pool
 func NewPgxConn(cfg *Config) (*pgxpool.Pool, error) {
 	ctx := context.Background()
 	dataSourceName := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s",
@@ -42,12 +31,12 @@ func NewPgxConn(cfg *Config) (*pgxpool.Pool, error) {
 		return nil, err
 	}
 
-	poolCfg.MaxConns = maxConn
-	poolCfg.HealthCheckPeriod = healthCheckPeriod
-	poolCfg.MaxConnIdleTime = maxConnIdleTime
-	poolCfg.MaxConnLifetime = maxConnLifetime
-	poolCfg.MinConns = minConn
-	poolCfg.LazyConnect = lazyConnect
+	poolCfg.MaxConns = constants.MAX_CONN
+	poolCfg.HealthCheckPeriod = constants.HEALTH_CHECK_PERIOD
+	poolCfg.MaxConnIdleTime = constants.MAX_CONN_IDLE_TIME
+	poolCfg.MaxConnLifetime = constants.MAX_CONN_LIFETIME
+	poolCfg.MinConns = constants.MIN_CONN
+	poolCfg.LazyConnect = constants.LAZY_CONNECT
 
 	connPool, err := pgxpool.ConnectConfig(ctx, poolCfg)
 	if err != nil {

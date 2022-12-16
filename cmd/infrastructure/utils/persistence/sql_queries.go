@@ -1,12 +1,14 @@
-package repository
+package persistence
 
 const (
-	createProductQuery = `INSERT INTO products (product_id, name, description, price, created_at, updated_at) 
+	CREATE_PRODUCT_QUERY = `INSERT INTO products (product_id, name, description, price, created_at, updated_at) 
 	VALUES ($1, $2, $3, $4, now(), now()) RETURNING product_id, name, description, price, created_at, updated_at`
 
-	deleteProductByIdQuery = `UPDATE products p SET active=false WHERE product_id=$1`
+	DEACTIVATE_PRODUCT_BY_ID_QUERY = `UPDATE products p SET active=false WHERE product_id=$1`
 
-	updateProductQuery = `UPDATE products p SET 
+	DELETE_PRODUCT_BY_ID = `DELETE FROM products WHERE product_id = $1`
+
+	UPDATE_PRODUCT_QUERY = `UPDATE products p SET 
                       name=COALESCE(NULLIF($1, ''), name), 
                       description=COALESCE(NULLIF($2, ''), description), 
                       price=COALESCE(NULLIF($3, 0), price),

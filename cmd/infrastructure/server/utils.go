@@ -13,10 +13,6 @@ import (
 	"github.com/segmentio/kafka-go"
 )
 
-const (
-	stackSize = 1 << 10 // 1 KB
-)
-
 func (s *server) connectKafkaBrokers(ctx context.Context) error {
 	kafkaConn, err := kafkaClient.NewKafkaConn(ctx, s.cfg.Kafka)
 	if err != nil {
@@ -66,6 +62,12 @@ func (s *server) initKafkaTopics(ctx context.Context) {
 		ReplicationFactor: s.cfg.KafkaTopics.ProductDelete.ReplicationFactor,
 	}
 
+	productDeactivateTopic := kafka.TopicConfig{
+		Topic:             s.cfg.KafkaTopics.ProductDeactivate.TopicName,
+		NumPartitions:     s.cfg.KafkaTopics.ProductDeactivate.Partitions,
+		ReplicationFactor: s.cfg.KafkaTopics.ProductDeactivate.ReplicationFactor,
+	}
+
 	productUpdateTopic := kafka.TopicConfig{
 		Topic:             s.cfg.KafkaTopics.ProductUpdate.TopicName,
 		NumPartitions:     s.cfg.KafkaTopics.ProductUpdate.Partitions,
@@ -75,6 +77,7 @@ func (s *server) initKafkaTopics(ctx context.Context) {
 	if err := conn.CreateTopics(
 		productCreateTopic,
 		productDeleteTopic,
+		productDeactivateTopic,
 		productUpdateTopic,
 	); err != nil {
 		log.Printf("kafkaConn.CreateTopics", err)
@@ -88,6 +91,7 @@ func (s *server) getConsumerGroupTopics() []string {
 	return []string{
 		s.cfg.KafkaTopics.ProductCreate.TopicName,
 		s.cfg.KafkaTopics.ProductDelete.TopicName,
+		s.cfg.KafkaTopics.ProductDeactivate.TopicName,
 		s.cfg.KafkaTopics.ProductUpdate.TopicName,
 	}
 }
