@@ -3,7 +3,7 @@ package server
 import (
 	"context"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/config"
-	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/reader_service"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/kafka/message_processor"
 	kafkaConsumer "github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/kafka/message_processor/product_processor"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/metrics"
@@ -53,7 +53,7 @@ func (s *server) Run() error {
 	productRepo := persistence.NewProductRepository(s.cfg, pgxConn)
 	pgGateway := product.NewProductPostgresGateway(productRepo)
 	productCommands := commands.NewProductCommands(pgGateway)
-	rc, err := reader_service.NewReaderServiceClient(ctx, s.cfg)
+	rc, err := grpc.NewReaderServiceClient(ctx, s.cfg)
 	if err != nil {
 		s.log.Errorf("Error in connecting grpc reader service PORT ", err)
 		return err

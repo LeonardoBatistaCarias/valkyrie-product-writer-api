@@ -3,8 +3,8 @@ package product_processor
 import (
 	"context"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/application/commands/update"
-	model "github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/model/pb"
-	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/reader_service/pb"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/pb/model"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/pb/reader_service"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/kafka/message_processor"
 	"github.com/avast/retry-go"
 	uuid "github.com/satori/go.uuid"
@@ -29,7 +29,7 @@ func (p *ProductMessageProcessor) processUpdateProductByID(ctx context.Context, 
 		return
 	}
 
-	res, err := p.rc.UpdateProductByID(context.Background(), &pb.UpdateProductByIDReq{Product: msg})
+	res, err := p.rc.UpdateProductByID(context.Background(), &reader_service.UpdateProductByIDReq{Product: msg})
 	if err != nil {
 		p.metrics.ErrorGrpcRequests.Inc()
 		p.log.Errorf("Error in UpdateProductByID Grpc call to Product Reader Service", err)

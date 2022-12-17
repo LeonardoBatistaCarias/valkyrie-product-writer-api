@@ -3,8 +3,8 @@ package product_processor
 import (
 	"context"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/application/commands/create"
-	model "github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/model/pb"
-	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/reader_service/pb"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/pb/model"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/pb/reader_service"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/kafka/message_processor"
 	"github.com/avast/retry-go"
 	uuid "github.com/satori/go.uuid"
@@ -30,7 +30,7 @@ func (p *ProductMessageProcessor) processCreateProduct(ctx context.Context, r *k
 		return
 	}
 
-	res, err := p.rc.CreateProduct(context.Background(), &pb.CreateProductReq{Product: msg})
+	res, err := p.rc.CreateProduct(context.Background(), &reader_service.CreateProductReq{Product: msg})
 	if err != nil {
 		p.metrics.ErrorGrpcRequests.Inc()
 		p.log.Errorf("Error in CreateProduct Grpc call to Product Reader Service", err)

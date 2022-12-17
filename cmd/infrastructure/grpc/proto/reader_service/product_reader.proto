@@ -1,10 +1,8 @@
 syntax = "proto3";
 
-package productReader;
+option go_package = "/reader_service";
 
-option go_package = "/pb";
-
-import "reader_service/proto/product_reader_messages.proto";
+import "proto/reader_service/product_reader_messages.proto";
 
 service ProductReaderService {
   rpc CreateProduct(CreateProductReq) returns (CreateProductRes) {};

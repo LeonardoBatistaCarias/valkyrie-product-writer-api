@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.21.9
-// source: reader_service/proto/product_reader.proto
+// source: proto/reader_service/product_reader.proto
 
-package pb
+package reader_service
 
 import (
 	context "context"
@@ -38,7 +38,7 @@ func NewProductReaderServiceClient(cc grpc.ClientConnInterface) ProductReaderSer
 
 func (c *productReaderServiceClient) CreateProduct(ctx context.Context, in *CreateProductReq, opts ...grpc.CallOption) (*CreateProductRes, error) {
 	out := new(CreateProductRes)
-	err := c.cc.Invoke(ctx, "/productReader.ProductReaderService/CreateProduct", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ProductReaderService/CreateProduct", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (c *productReaderServiceClient) CreateProduct(ctx context.Context, in *Crea
 
 func (c *productReaderServiceClient) DeleteProductByID(ctx context.Context, in *DeleteProductByIDReq, opts ...grpc.CallOption) (*DeleteProductByIDRes, error) {
 	out := new(DeleteProductByIDRes)
-	err := c.cc.Invoke(ctx, "/productReader.ProductReaderService/DeleteProductByID", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ProductReaderService/DeleteProductByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (c *productReaderServiceClient) DeleteProductByID(ctx context.Context, in *
 
 func (c *productReaderServiceClient) DeactivateProductByID(ctx context.Context, in *DeactivateProductByIDReq, opts ...grpc.CallOption) (*DeactivateProductByIDRes, error) {
 	out := new(DeactivateProductByIDRes)
-	err := c.cc.Invoke(ctx, "/productReader.ProductReaderService/DeactivateProductByID", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ProductReaderService/DeactivateProductByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (c *productReaderServiceClient) DeactivateProductByID(ctx context.Context, 
 
 func (c *productReaderServiceClient) UpdateProductByID(ctx context.Context, in *UpdateProductByIDReq, opts ...grpc.CallOption) (*UpdateProductByIDRes, error) {
 	out := new(UpdateProductByIDRes)
-	err := c.cc.Invoke(ctx, "/productReader.ProductReaderService/UpdateProductByID", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ProductReaderService/UpdateProductByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +122,7 @@ func _ProductReaderService_CreateProduct_Handler(srv interface{}, ctx context.Co
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/productReader.ProductReaderService/CreateProduct",
+		FullMethod: "/ProductReaderService/CreateProduct",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductReaderServiceServer).CreateProduct(ctx, req.(*CreateProductReq))
@@ -140,7 +140,7 @@ func _ProductReaderService_DeleteProductByID_Handler(srv interface{}, ctx contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/productReader.ProductReaderService/DeleteProductByID",
+		FullMethod: "/ProductReaderService/DeleteProductByID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductReaderServiceServer).DeleteProductByID(ctx, req.(*DeleteProductByIDReq))
@@ -158,7 +158,7 @@ func _ProductReaderService_DeactivateProductByID_Handler(srv interface{}, ctx co
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/productReader.ProductReaderService/DeactivateProductByID",
+		FullMethod: "/ProductReaderService/DeactivateProductByID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductReaderServiceServer).DeactivateProductByID(ctx, req.(*DeactivateProductByIDReq))
@@ -176,7 +176,7 @@ func _ProductReaderService_UpdateProductByID_Handler(srv interface{}, ctx contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/productReader.ProductReaderService/UpdateProductByID",
+		FullMethod: "/ProductReaderService/UpdateProductByID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductReaderServiceServer).UpdateProductByID(ctx, req.(*UpdateProductByIDReq))
@@ -188,7 +188,7 @@ func _ProductReaderService_UpdateProductByID_Handler(srv interface{}, ctx contex
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ProductReaderService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "productReader.ProductReaderService",
+	ServiceName: "ProductReaderService",
 	HandlerType: (*ProductReaderServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -209,5 +209,5 @@ var ProductReaderService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "reader_service/proto/product_reader.proto",
+	Metadata: "proto/reader_service/product_reader.proto",
 }

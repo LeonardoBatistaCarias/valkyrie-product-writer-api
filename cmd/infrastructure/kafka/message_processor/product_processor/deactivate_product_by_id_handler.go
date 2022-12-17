@@ -3,8 +3,8 @@ package product_processor
 import (
 	"context"
 	"fmt"
-	deleteKafkaMessage "github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/kafka/pb"
-	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/reader_service/pb"
+	deleteKafkaMessage "github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/pb/kafka"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/pb/reader_service"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/kafka/message_processor"
 	"github.com/avast/retry-go"
 	"github.com/segmentio/kafka-go"
@@ -26,7 +26,7 @@ func (p *ProductMessageProcessor) processDeactivateProductByID(ctx context.Conte
 		return
 	}
 
-	if _, err := p.rc.DeactivateProductByID(context.Background(), &pb.DeactivateProductByIDReq{ProductID: msg.GetProductID()}); err != nil {
+	if _, err := p.rc.DeactivateProductByID(context.Background(), &reader_service.DeactivateProductByIDReq{ProductID: msg.GetProductID()}); err != nil {
 		p.metrics.ErrorGrpcRequests.Inc()
 		p.log.Errorf("Error in DeactivateProductByID Grpc call to Product Reader Service", err)
 	} else {
