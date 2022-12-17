@@ -12,7 +12,7 @@ import (
 )
 
 func (p *ProductMessageProcessor) processDeactivateProductByID(ctx context.Context, r *kafka.Reader, m kafka.Message) {
-	msg := &deleteKafkaMessage.DeleteProductByIDKafkaMessage{}
+	msg := &deleteKafkaMessage.DeactivateProductByIDKafkaMessage{}
 	if err := proto.Unmarshal(m.Value, msg); err != nil {
 		p.log.WarnMsg("proto.Unmarshal", err)
 		p.commitErrMessage(ctx, r, m)

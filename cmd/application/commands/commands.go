@@ -17,7 +17,7 @@ type ProductCommands struct {
 func NewProductCommands(pgGateway product.ProductGateway) *ProductCommands {
 	createHandler := create.NewCreateProductHandler(pgGateway)
 	deleteProductByIDHandler := deleteBy.NewDeleteProductByIDHandler(pgGateway)
-	deactivateProductByIDHandler := deleteBy.NewDeleteProductByIDHandler(pgGateway)
+	deactivateProductByIDHandler := deleteBy.NewDeactivateProductByIDHandler(pgGateway)
 	updateProductByIDHandler := update.NewUpdateProductByIDHandler(pgGateway)
 
 	return &ProductCommands{
