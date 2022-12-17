@@ -28,7 +28,9 @@ func (c *updateProductByIDHandler) Handle(ctx context.Context, cmd UpdateProduct
 		uuid.NewV4(),
 		nil,
 		true)
-	c.gateway.UpdateProductByID(ctx, *product)
+	if err := c.gateway.UpdateProductByID(ctx, product); err != nil {
+		return err
+	}
 
 	return nil
 }

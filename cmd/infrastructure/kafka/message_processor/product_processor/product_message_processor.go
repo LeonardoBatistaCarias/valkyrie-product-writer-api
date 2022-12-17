@@ -2,9 +2,11 @@ package product_processor
 
 import (
 	"context"
-	"fmt"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/application/commands"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/config"
+	reader_service "github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/reader_service/pb"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/metrics"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/utils/logger"
 	"github.com/segmentio/kafka-go"
 	"sync"
 )
@@ -12,10 +14,13 @@ import (
 type ProductMessageProcessor struct {
 	cfg      *config.Config
 	commands commands.ProductCommands
+	rc       reader_service.ProductReaderServiceClient
+	metrics  *metrics.Metrics
+	log      logger.Logger
 }
 
-func NewProductMessageProcessor(cfg *config.Config, commands commands.ProductCommands) *ProductMessageProcessor {
-	return &ProductMessageProcessor{cfg: cfg, commands: commands}
+func NewProductMessageProcessor(cfg *config.Config, commands commands.ProductCommands, rc reader_service.ProductReaderServiceClient, metrics *metrics.Metrics, log logger.Logger) *ProductMessageProcessor {
+	return &ProductMessageProcessor{cfg: cfg, commands: commands, rc: rc, metrics: metrics, log: log}
 }
 
 func (p *ProductMessageProcessor) ProcessMessage(ctx context.Context, r *kafka.Reader, wg *sync.WaitGroup, workerID int) {
@@ -30,7 +35,7 @@ func (p *ProductMessageProcessor) ProcessMessage(ctx context.Context, r *kafka.R
 		m, err := r.FetchMessage(ctx)
 
 		if err != nil {
-			fmt.Errorf("workerID: %v, err: %v", workerID, err)
+			p.log.Warnf("workerID: %v, err: %v", workerID, err)
 			continue
 		}
 
@@ -48,21 +53,21 @@ func (p *ProductMessageProcessor) ProcessMessage(ctx context.Context, r *kafka.R
 }
 
 func (p *ProductMessageProcessor) commitMessage(ctx context.Context, r *kafka.Reader, m kafka.Message) {
-	//s.metrics.SuccessKafkaMessages.Inc()
-	//s.log.KafkaLogCommittedMessage(m.Topic, m.Partition, m.Offset)
+	p.metrics.SuccessKafkaMessages.Inc()
+	p.log.KafkaLogCommittedMessage(m.Topic, m.Partition, m.Offset)
 	if err := r.CommitMessages(ctx, m); err != nil {
-		//s.log.WarnMsg("commitMessage", err)
+		p.log.WarnMsg("commitMessage", err)
 	}
 }
 
 func (p *ProductMessageProcessor) commitErrMessage(ctx context.Context, r *kafka.Reader, m kafka.Message) {
-	//s.metrics.ErrorKafkaMessages.Inc()
-	//s.log.KafkaLogCommittedMessage(m.Topic, m.Partition, m.Offset)
+	p.metrics.ErrorKafkaMessages.Inc()
+	p.log.KafkaLogCommittedMessage(m.Topic, m.Partition, m.Offset)
 	if err := r.CommitMessages(ctx, m); err != nil {
-		//s.log.WarnMsg("commitMessage", err)
+		p.log.WarnMsg("commitMessage", err)
 	}
 }
 
 func (p *ProductMessageProcessor) logProcessMessage(m kafka.Message, workerID int) {
-	//s.log.KafkaProcessMessage(m.Topic, m.Partition, string(m.Value), workerID, m.Offset, m.Time)
+	p.log.KafkaProcessMessage(m.Topic, m.Partition, string(m.Value), workerID, m.Offset, m.Time)
 }

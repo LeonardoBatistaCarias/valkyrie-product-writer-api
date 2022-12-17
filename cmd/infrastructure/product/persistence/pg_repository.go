@@ -2,7 +2,6 @@ package persistence
 
 import (
 	"context"
-	"fmt"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/domain/product"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/config"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/utils/persistence"
@@ -19,7 +18,7 @@ func NewProductRepository(cfg *config.Config, db *pgxpool.Pool) *productReposito
 	return &productRepository{cfg: cfg, db: db}
 }
 
-func (pr *productRepository) CreateProduct(ctx context.Context, p *product.Product) (*product.Product, error) {
+func (pr *productRepository) Create(ctx context.Context, p *product.Product) error {
 	var created product.Product
 
 	if err := pr.db.QueryRow(ctx, persistence.CREATE_PRODUCT_QUERY, &p.ProductID, &p.Name, &p.Description, &p.Price).Scan(
@@ -30,29 +29,29 @@ func (pr *productRepository) CreateProduct(ctx context.Context, p *product.Produ
 		&created.CreatedAt,
 		&created.UpdatedAt,
 	); err != nil {
-		return nil, fmt.Errorf("db.QueryRow", err)
+		return errors.Wrap(err, "db.QueryRow")
 	}
 
-	return &created, nil
+	return nil
 }
 
-func (pr *productRepository) DeleteProductByID(ctx context.Context, productID string) error {
+func (pr *productRepository) DeleteByID(ctx context.Context, productID string) error {
 	if _, err := pr.db.Exec(ctx, persistence.DELETE_PRODUCT_BY_ID, productID); err != nil {
-		return fmt.Errorf("db.QueryRow %v", err)
+		return errors.Wrap(err, "db.Exec")
 	}
 
 	return nil
 }
 
-func (pr *productRepository) DeactivateProductByID(ctx context.Context, productID string) error {
+func (pr *productRepository) DeactivateByID(ctx context.Context, productID string) error {
 	if _, err := pr.db.Exec(ctx, persistence.DEACTIVATE_PRODUCT_BY_ID_QUERY, productID); err != nil {
-		return fmt.Errorf("db.QueryRow %v", err)
+		return errors.Wrap(err, "db.Exec")
 	}
 
 	return nil
 }
 
-func (pr *productRepository) UpdateProductByID(ctx context.Context, p *product.Product) (*product.Product, error) {
+func (pr *productRepository) UpdateByID(ctx context.Context, p *product.Product) error {
 	var updated product.Product
 
 	if err := pr.db.QueryRow(ctx, persistence.UPDATE_PRODUCT_QUERY, &p.Name, &p.Description, &p.Price, &p.ProductID).Scan(
@@ -63,8 +62,8 @@ func (pr *productRepository) UpdateProductByID(ctx context.Context, p *product.P
 		&updated.CreatedAt,
 		&updated.UpdatedAt,
 	); err != nil {
-		return nil, errors.Wrap(err, "Scan")
+		return errors.Wrap(err, "db.QueryRow")
 	}
 
-	return &updated, nil
+	return nil
 }

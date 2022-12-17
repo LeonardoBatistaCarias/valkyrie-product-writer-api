@@ -1,4 +1,8 @@
-serviceName: writer_service
+serviceName: product_writer_api
+logger:
+  level: debug
+  devMode: false
+  encoder: json
 grpc:
   readerServicePort: 5003
 postgres:

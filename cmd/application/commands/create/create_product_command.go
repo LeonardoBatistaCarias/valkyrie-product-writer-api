@@ -6,6 +6,7 @@ import (
 )
 
 type CreateProductCommand struct {
+	ProductID     uuid.UUID
 	Name          string
 	Description   string
 	Brand         int32
@@ -24,6 +25,7 @@ type CreateProductImageCommand struct {
 }
 
 func NewCreateProductCommand(
+	productID uuid.UUID,
 	name string,
 	description string,
 	brand int32,
@@ -33,6 +35,7 @@ func NewCreateProductCommand(
 	images []*CreateProductImageCommand,
 	active bool) *CreateProductCommand {
 	return &CreateProductCommand{
+		ProductID:     productID,
 		Name:          name,
 		Description:   description,
 		Brand:         brand,

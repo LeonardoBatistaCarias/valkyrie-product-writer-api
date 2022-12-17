@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/utils/constants"
 	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/pkg/errors"
 )
 
 type Config struct {
@@ -40,7 +41,7 @@ func NewPgxConn(cfg *Config) (*pgxpool.Pool, error) {
 
 	connPool, err := pgxpool.ConnectConfig(ctx, poolCfg)
 	if err != nil {
-		return nil, fmt.Errorf("pgx.ConnectConfig", err)
+		return nil, errors.Wrap(err, "pgx.ConnectConfig")
 	}
 
 	return connPool, nil

@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type ProductReaderServiceClient interface {
 	CreateProduct(ctx context.Context, in *CreateProductReq, opts ...grpc.CallOption) (*CreateProductRes, error)
 	DeleteProductByID(ctx context.Context, in *DeleteProductByIDReq, opts ...grpc.CallOption) (*DeleteProductByIDRes, error)
+	DeactivateProductByID(ctx context.Context, in *DeactivateProductByIDReq, opts ...grpc.CallOption) (*DeactivateProductByIDRes, error)
 	UpdateProductByID(ctx context.Context, in *UpdateProductByIDReq, opts ...grpc.CallOption) (*UpdateProductByIDRes, error)
 }
 
@@ -53,6 +54,15 @@ func (c *productReaderServiceClient) DeleteProductByID(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *productReaderServiceClient) DeactivateProductByID(ctx context.Context, in *DeactivateProductByIDReq, opts ...grpc.CallOption) (*DeactivateProductByIDRes, error) {
+	out := new(DeactivateProductByIDRes)
+	err := c.cc.Invoke(ctx, "/productReader.ProductReaderService/DeactivateProductByID", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *productReaderServiceClient) UpdateProductByID(ctx context.Context, in *UpdateProductByIDReq, opts ...grpc.CallOption) (*UpdateProductByIDRes, error) {
 	out := new(UpdateProductByIDRes)
 	err := c.cc.Invoke(ctx, "/productReader.ProductReaderService/UpdateProductByID", in, out, opts...)
@@ -68,6 +78,7 @@ func (c *productReaderServiceClient) UpdateProductByID(ctx context.Context, in *
 type ProductReaderServiceServer interface {
 	CreateProduct(context.Context, *CreateProductReq) (*CreateProductRes, error)
 	DeleteProductByID(context.Context, *DeleteProductByIDReq) (*DeleteProductByIDRes, error)
+	DeactivateProductByID(context.Context, *DeactivateProductByIDReq) (*DeactivateProductByIDRes, error)
 	UpdateProductByID(context.Context, *UpdateProductByIDReq) (*UpdateProductByIDRes, error)
 	mustEmbedUnimplementedProductReaderServiceServer()
 }
@@ -81,6 +92,9 @@ func (UnimplementedProductReaderServiceServer) CreateProduct(context.Context, *C
 }
 func (UnimplementedProductReaderServiceServer) DeleteProductByID(context.Context, *DeleteProductByIDReq) (*DeleteProductByIDRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteProductByID not implemented")
+}
+func (UnimplementedProductReaderServiceServer) DeactivateProductByID(context.Context, *DeactivateProductByIDReq) (*DeactivateProductByIDRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeactivateProductByID not implemented")
 }
 func (UnimplementedProductReaderServiceServer) UpdateProductByID(context.Context, *UpdateProductByIDReq) (*UpdateProductByIDRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateProductByID not implemented")
@@ -134,6 +148,24 @@ func _ProductReaderService_DeleteProductByID_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProductReaderService_DeactivateProductByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeactivateProductByIDReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductReaderServiceServer).DeactivateProductByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/productReader.ProductReaderService/DeactivateProductByID",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductReaderServiceServer).DeactivateProductByID(ctx, req.(*DeactivateProductByIDReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProductReaderService_UpdateProductByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateProductByIDReq)
 	if err := dec(in); err != nil {
@@ -166,6 +198,10 @@ var ProductReaderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteProductByID",
 			Handler:    _ProductReaderService_DeleteProductByID_Handler,
+		},
+		{
+			MethodName: "DeactivateProductByID",
+			Handler:    _ProductReaderService_DeactivateProductByID_Handler,
 		},
 		{
 			MethodName: "UpdateProductByID",

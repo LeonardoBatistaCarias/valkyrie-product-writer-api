@@ -3,10 +3,13 @@ package server
 import (
 	"context"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/config"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/reader_service"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/kafka/message_processor"
 	kafkaConsumer "github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/kafka/message_processor/product_processor"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/metrics"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/product/persistence"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/utils/constants"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/utils/logger"
 	"log"
 	"os"
 	"os/signal"
@@ -22,27 +25,40 @@ import (
 )
 
 type server struct {
+	log       logger.Logger
 	cfg       *config.Config
 	kafkaConn *kafka.Conn
 	pgConn    *pgxpool.Pool
+	m         *metrics.Metrics
 }
 
-func NewServer(cfg *config.Config) *server {
-	return &server{cfg: cfg}
+func NewServer(log logger.Logger, cfg *config.Config) *server {
+	return &server{log: log, cfg: cfg}
 }
 
 func (s *server) Run() error {
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
 	defer cancel()
 
-	if err := s.newPgxConn(); err != nil {
-		return err
-	}
+	s.m = metrics.NewMetrics(s.cfg)
 
-	productRepo := persistence.NewProductRepository(s.cfg, s.pgConn)
+	pgxConn, err := postgres.NewPgxConn(s.cfg.Postgresql)
+	if err != nil {
+		return errors.Wrap(err, "postgresql.NewPgxConn")
+	}
+	s.pgConn = pgxConn
+	s.log.Infof("postgres connected: %v", pgxConn.Stat().TotalConns())
+	defer pgxConn.Close()
+
+	productRepo := persistence.NewProductRepository(s.cfg, pgxConn)
 	pgGateway := product.NewProductPostgresGateway(productRepo)
 	productCommands := commands.NewProductCommands(pgGateway)
-	productMessageProcessor := kafkaConsumer.NewProductMessageProcessor(s.cfg, *productCommands)
+	rc, err := reader_service.NewReaderServiceClient(ctx, s.cfg)
+	if err != nil {
+		s.log.Errorf("Error in connecting grpc reader service PORT ", err)
+		return err
+	}
+	productMessageProcessor := kafkaConsumer.NewProductMessageProcessor(s.cfg, *productCommands, rc, s.m, s.log)
 
 	if err := s.initKafka(ctx, productMessageProcessor); err != nil {
 		return err
@@ -66,18 +82,5 @@ func (s *server) initKafka(ctx context.Context, processor message_processor.Mess
 	if s.cfg.Kafka.InitTopics {
 		s.initKafkaTopics(ctx)
 	}
-	return nil
-}
-
-func (s *server) newPgxConn() error {
-	pgxConn, err := postgres.NewPgxConn(s.cfg.Postgresql)
-	if err != nil {
-		return errors.Wrap(err, "postgresql.NewPgxConn")
-	}
-
-	s.pgConn = pgxConn
-	log.Printf("postgres connected: %v", pgxConn.Stat().TotalConns())
-	defer pgxConn.Close()
-
 	return nil
 }

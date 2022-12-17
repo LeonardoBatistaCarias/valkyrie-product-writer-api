@@ -7,9 +7,9 @@
 package pb
 
 import (
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/model/pb"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	model "github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/grpc/model/pb"
 	reflect "reflect"
 	sync "sync"
 )
@@ -26,7 +26,7 @@ type CreateProductReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Product *model.Product `protobuf:"bytes,1,opt,name=product_processor,proto3" json:"product_processor,omitempty"`
+	Product *pb.Product `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
 }
 
 func (x *CreateProductReq) Reset() {
@@ -61,7 +61,7 @@ func (*CreateProductReq) Descriptor() ([]byte, []int) {
 	return file_reader_service_proto_product_reader_messages_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CreateProductReq) GetProduct() *model.Product {
+func (x *CreateProductReq) GetProduct() *pb.Product {
 	if x != nil {
 		return x.Product
 	}
@@ -73,7 +73,7 @@ type CreateProductRes struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Product *model.Product `protobuf:"bytes,1,opt,name=product_processor,proto3" json:"product_processor,omitempty"`
+	Product *pb.Product `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
 }
 
 func (x *CreateProductRes) Reset() {
@@ -108,7 +108,7 @@ func (*CreateProductRes) Descriptor() ([]byte, []int) {
 	return file_reader_service_proto_product_reader_messages_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *CreateProductRes) GetProduct() *model.Product {
+func (x *CreateProductRes) GetProduct() *pb.Product {
 	if x != nil {
 		return x.Product
 	}
@@ -200,18 +200,103 @@ func (*DeleteProductByIDRes) Descriptor() ([]byte, []int) {
 	return file_reader_service_proto_product_reader_messages_proto_rawDescGZIP(), []int{3}
 }
 
+type DeactivateProductByIDReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ProductID string `protobuf:"bytes,1,opt,name=productID,proto3" json:"productID,omitempty"`
+}
+
+func (x *DeactivateProductByIDReq) Reset() {
+	*x = DeactivateProductByIDReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_reader_service_proto_product_reader_messages_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeactivateProductByIDReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeactivateProductByIDReq) ProtoMessage() {}
+
+func (x *DeactivateProductByIDReq) ProtoReflect() protoreflect.Message {
+	mi := &file_reader_service_proto_product_reader_messages_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeactivateProductByIDReq.ProtoReflect.Descriptor instead.
+func (*DeactivateProductByIDReq) Descriptor() ([]byte, []int) {
+	return file_reader_service_proto_product_reader_messages_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *DeactivateProductByIDReq) GetProductID() string {
+	if x != nil {
+		return x.ProductID
+	}
+	return ""
+}
+
+type DeactivateProductByIDRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *DeactivateProductByIDRes) Reset() {
+	*x = DeactivateProductByIDRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_reader_service_proto_product_reader_messages_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeactivateProductByIDRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeactivateProductByIDRes) ProtoMessage() {}
+
+func (x *DeactivateProductByIDRes) ProtoReflect() protoreflect.Message {
+	mi := &file_reader_service_proto_product_reader_messages_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeactivateProductByIDRes.ProtoReflect.Descriptor instead.
+func (*DeactivateProductByIDRes) Descriptor() ([]byte, []int) {
+	return file_reader_service_proto_product_reader_messages_proto_rawDescGZIP(), []int{5}
+}
+
 type UpdateProductByIDReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Product *model.Product `protobuf:"bytes,1,opt,name=product_processor,proto3" json:"product_processor,omitempty"`
+	Product *pb.Product `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
 }
 
 func (x *UpdateProductByIDReq) Reset() {
 	*x = UpdateProductByIDReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_reader_service_proto_product_reader_messages_proto_msgTypes[4]
+		mi := &file_reader_service_proto_product_reader_messages_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -224,7 +309,7 @@ func (x *UpdateProductByIDReq) String() string {
 func (*UpdateProductByIDReq) ProtoMessage() {}
 
 func (x *UpdateProductByIDReq) ProtoReflect() protoreflect.Message {
-	mi := &file_reader_service_proto_product_reader_messages_proto_msgTypes[4]
+	mi := &file_reader_service_proto_product_reader_messages_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -237,10 +322,10 @@ func (x *UpdateProductByIDReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateProductByIDReq.ProtoReflect.Descriptor instead.
 func (*UpdateProductByIDReq) Descriptor() ([]byte, []int) {
-	return file_reader_service_proto_product_reader_messages_proto_rawDescGZIP(), []int{4}
+	return file_reader_service_proto_product_reader_messages_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *UpdateProductByIDReq) GetProduct() *model.Product {
+func (x *UpdateProductByIDReq) GetProduct() *pb.Product {
 	if x != nil {
 		return x.Product
 	}
@@ -252,13 +337,13 @@ type UpdateProductByIDRes struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Product *model.Product `protobuf:"bytes,1,opt,name=product_processor,proto3" json:"product_processor,omitempty"`
+	Product *pb.Product `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
 }
 
 func (x *UpdateProductByIDRes) Reset() {
 	*x = UpdateProductByIDRes{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_reader_service_proto_product_reader_messages_proto_msgTypes[5]
+		mi := &file_reader_service_proto_product_reader_messages_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -271,7 +356,7 @@ func (x *UpdateProductByIDRes) String() string {
 func (*UpdateProductByIDRes) ProtoMessage() {}
 
 func (x *UpdateProductByIDRes) ProtoReflect() protoreflect.Message {
-	mi := &file_reader_service_proto_product_reader_messages_proto_msgTypes[5]
+	mi := &file_reader_service_proto_product_reader_messages_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -284,10 +369,10 @@ func (x *UpdateProductByIDRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateProductByIDRes.ProtoReflect.Descriptor instead.
 func (*UpdateProductByIDRes) Descriptor() ([]byte, []int) {
-	return file_reader_service_proto_product_reader_messages_proto_rawDescGZIP(), []int{5}
+	return file_reader_service_proto_product_reader_messages_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *UpdateProductByIDRes) GetProduct() *model.Product {
+func (x *UpdateProductByIDRes) GetProduct() *pb.Product {
 	if x != nil {
 		return x.Product
 	}
@@ -300,29 +385,34 @@ var file_reader_service_proto_product_reader_messages_proto_rawDesc = []byte{
 	0x0a, 0x32, 0x72, 0x65, 0x61, 0x64, 0x65, 0x72, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
 	0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x5f, 0x72,
 	0x65, 0x61, 0x64, 0x65, 0x72, 0x5f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x13, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x2f, 0x70, 0x72, 0x6f, 0x64,
-	0x75, 0x63, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x36, 0x0a, 0x10, 0x43, 0x72, 0x65,
-	0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x52, 0x65, 0x71, 0x12, 0x22, 0x0a,
-	0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x08,
-	0x2e, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x52, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63,
-	0x74, 0x22, 0x36, 0x0a, 0x10, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x64, 0x75,
-	0x63, 0x74, 0x52, 0x65, 0x73, 0x12, 0x22, 0x0a, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x08, 0x2e, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74,
-	0x52, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x22, 0x34, 0x0a, 0x14, 0x44, 0x65, 0x6c,
-	0x65, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65,
-	0x71, 0x12, 0x1c, 0x0a, 0x09, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x49, 0x44, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x49, 0x44, 0x22,
-	0x16, 0x0a, 0x14, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74,
-	0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x73, 0x22, 0x3a, 0x0a, 0x14, 0x55, 0x70, 0x64, 0x61, 0x74,
-	0x65, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x71, 0x12,
-	0x22, 0x0a, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x08, 0x2e, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x52, 0x07, 0x70, 0x72, 0x6f, 0x64,
-	0x75, 0x63, 0x74, 0x22, 0x3a, 0x0a, 0x14, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f,
-	0x64, 0x75, 0x63, 0x74, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x73, 0x12, 0x22, 0x0a, 0x07, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x19, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x2f, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x2f, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22,
+	0x36, 0x0a, 0x10, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74,
+	0x52, 0x65, 0x71, 0x12, 0x22, 0x0a, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x08, 0x2e, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x52, 0x07,
+	0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x22, 0x36, 0x0a, 0x10, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x52, 0x65, 0x73, 0x12, 0x22, 0x0a, 0x07, 0x70,
 	0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x08, 0x2e, 0x50,
-	0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x52, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x42,
-	0x11, 0x5a, 0x0f, 0x2f, 0x72, 0x65, 0x61, 0x64, 0x65, 0x72, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x52, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x22,
+	0x34, 0x0a, 0x14, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74,
+	0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x71, 0x12, 0x1c, 0x0a, 0x09, 0x70, 0x72, 0x6f, 0x64, 0x75,
+	0x63, 0x74, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x72, 0x6f, 0x64,
+	0x75, 0x63, 0x74, 0x49, 0x44, 0x22, 0x16, 0x0a, 0x14, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50,
+	0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x73, 0x22, 0x38, 0x0a,
+	0x18, 0x44, 0x65, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x64, 0x75,
+	0x63, 0x74, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x71, 0x12, 0x1c, 0x0a, 0x09, 0x70, 0x72, 0x6f,
+	0x64, 0x75, 0x63, 0x74, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x72,
+	0x6f, 0x64, 0x75, 0x63, 0x74, 0x49, 0x44, 0x22, 0x1a, 0x0a, 0x18, 0x44, 0x65, 0x61, 0x63, 0x74,
+	0x69, 0x76, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x42, 0x79, 0x49, 0x44,
+	0x52, 0x65, 0x73, 0x22, 0x3a, 0x0a, 0x14, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f,
+	0x64, 0x75, 0x63, 0x74, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x71, 0x12, 0x22, 0x0a, 0x07, 0x70,
+	0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x08, 0x2e, 0x50,
+	0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x52, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x22,
+	0x3a, 0x0a, 0x14, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74,
+	0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x73, 0x12, 0x22, 0x0a, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75,
+	0x63, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x08, 0x2e, 0x50, 0x72, 0x6f, 0x64, 0x75,
+	0x63, 0x74, 0x52, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x42, 0x05, 0x5a, 0x03, 0x2f,
+	0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -337,21 +427,23 @@ func file_reader_service_proto_product_reader_messages_proto_rawDescGZIP() []byt
 	return file_reader_service_proto_product_reader_messages_proto_rawDescData
 }
 
-var file_reader_service_proto_product_reader_messages_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_reader_service_proto_product_reader_messages_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_reader_service_proto_product_reader_messages_proto_goTypes = []interface{}{
-	(*CreateProductReq)(nil),     // 0: CreateProductReq
-	(*CreateProductRes)(nil),     // 1: CreateProductRes
-	(*DeleteProductByIDReq)(nil), // 2: DeleteProductByIDReq
-	(*DeleteProductByIDRes)(nil), // 3: DeleteProductByIDRes
-	(*UpdateProductByIDReq)(nil), // 4: UpdateProductByIDReq
-	(*UpdateProductByIDRes)(nil), // 5: UpdateProductByIDRes
-	(*model.Product)(nil),        // 6: Product
+	(*CreateProductReq)(nil),         // 0: CreateProductReq
+	(*CreateProductRes)(nil),         // 1: CreateProductRes
+	(*DeleteProductByIDReq)(nil),     // 2: DeleteProductByIDReq
+	(*DeleteProductByIDRes)(nil),     // 3: DeleteProductByIDRes
+	(*DeactivateProductByIDReq)(nil), // 4: DeactivateProductByIDReq
+	(*DeactivateProductByIDRes)(nil), // 5: DeactivateProductByIDRes
+	(*UpdateProductByIDReq)(nil),     // 6: UpdateProductByIDReq
+	(*UpdateProductByIDRes)(nil),     // 7: UpdateProductByIDRes
+	(*pb.Product)(nil),                  // 8: Product
 }
 var file_reader_service_proto_product_reader_messages_proto_depIdxs = []int32{
-	6, // 0: CreateProductReq.product_processor:type_name -> Product
-	6, // 1: CreateProductRes.product_processor:type_name -> Product
-	6, // 2: UpdateProductByIDReq.product_processor:type_name -> Product
-	6, // 3: UpdateProductByIDRes.product_processor:type_name -> Product
+	8, // 0: CreateProductReq.product:type_name -> Product
+	8, // 1: CreateProductRes.product:type_name -> Product
+	8, // 2: UpdateProductByIDReq.product:type_name -> Product
+	8, // 3: UpdateProductByIDRes.product:type_name -> Product
 	4, // [4:4] is the sub-list for method output_type
 	4, // [4:4] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
@@ -364,6 +456,7 @@ func file_reader_service_proto_product_reader_messages_proto_init() {
 	if File_reader_service_proto_product_reader_messages_proto != nil {
 		return
 	}
+	//file_model_proto_product_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_reader_service_proto_product_reader_messages_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateProductReq); i {
@@ -414,7 +507,7 @@ func file_reader_service_proto_product_reader_messages_proto_init() {
 			}
 		}
 		file_reader_service_proto_product_reader_messages_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateProductByIDReq); i {
+			switch v := v.(*DeactivateProductByIDReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -426,6 +519,30 @@ func file_reader_service_proto_product_reader_messages_proto_init() {
 			}
 		}
 		file_reader_service_proto_product_reader_messages_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeactivateProductByIDRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_reader_service_proto_product_reader_messages_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateProductByIDReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_reader_service_proto_product_reader_messages_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateProductByIDRes); i {
 			case 0:
 				return &v.state
@@ -444,7 +561,7 @@ func file_reader_service_proto_product_reader_messages_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_reader_service_proto_product_reader_messages_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -6,8 +6,8 @@ import (
 )
 
 type Repository interface {
-	CreateProduct(ctx context.Context, product *product.Product) (*product.Product, error)
-	DeleteProductByID(ctx context.Context, productID string) error
-	DeactivateProductByID(ctx context.Context, productID string) error
-	UpdateProductByID(ctx context.Context, product *product.Product) (*product.Product, error)
+	Create(ctx context.Context, product *product.Product) error
+	DeleteByID(ctx context.Context, productID string) error
+	DeactivateByID(ctx context.Context, productID string) error
+	UpdateByID(ctx context.Context, product *product.Product) error
 }

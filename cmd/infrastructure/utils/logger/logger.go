@@ -1,9 +1,11 @@
 package logger
 
 import (
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/utils/constants"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"
+	"time"
 )
 
 type Config struct {
@@ -21,6 +23,8 @@ type Logger interface {
 	WarnMsg(msg string, err error)
 	Errorf(template string, args ...interface{})
 	Fatal(args ...interface{})
+	KafkaProcessMessage(topic string, partition int, message string, workerID int, offset int64, time time.Time)
+	KafkaLogCommittedMessage(topic string, partition int, offset int64)
 }
 
 type appLogger struct {
@@ -125,4 +129,25 @@ func (l *appLogger) Errorf(template string, args ...interface{}) {
 
 func (l *appLogger) Fatal(args ...interface{}) {
 	l.sugarLogger.Fatal(args...)
+}
+
+func (l *appLogger) KafkaProcessMessage(topic string, partition int, message string, workerID int, offset int64, time time.Time) {
+	l.logger.Debug(
+		"Processing Kafka message",
+		zap.String(constants.TOPIC, topic),
+		zap.Int(constants.PARTITION, partition),
+		zap.String(constants.MESSAGE, message),
+		zap.Int(constants.WORKER_ID, workerID),
+		zap.Int64(constants.OFFSET, offset),
+		zap.Time(constants.TIME, time),
+	)
+}
+
+func (l *appLogger) KafkaLogCommittedMessage(topic string, partition int, offset int64) {
+	l.logger.Info(
+		"Committed Kafka message",
+		zap.String(constants.TOPIC, topic),
+		zap.Int(constants.PARTITION, partition),
+		zap.Int64(constants.OFFSET, offset),
+	)
 }

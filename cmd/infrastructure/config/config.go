@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/kafka"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/utils/logger"
 	"os"
 
 	"github.com/pkg/errors"
@@ -21,6 +22,7 @@ func init() {
 
 type Config struct {
 	ServiceName string           `mapstructure:"serviceName"`
+	Logger      *logger.Config   `mapstructure:"logger"`
 	KafkaTopics KafkaTopics      `mapstructure:"kafkaTopics"`
 	GRPC        GRPC             `mapstructure:"grpc"`
 	Postgresql  *postgres.Config `mapstructure:"postgres"`

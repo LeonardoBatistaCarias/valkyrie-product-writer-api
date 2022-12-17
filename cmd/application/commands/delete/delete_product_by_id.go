@@ -18,7 +18,9 @@ func NewDeleteProductByIDHandler(productGateway product.ProductGateway) *deleteP
 }
 
 func (c *deleteProductByIDHandler) Handle(ctx context.Context, productID string) error {
-	c.gateway.DeleteProductByID(ctx, productID)
+	if err := c.gateway.DeleteProductByID(ctx, productID); err != nil {
+		return err
+	}
 
 	return nil
 }

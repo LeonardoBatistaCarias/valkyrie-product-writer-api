@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option go_package = "/pb";
 
-import "model/product_processor.proto";
+import "model/proto/product.proto";
 
 message CreateProductReq {
   Product product = 1;
@@ -17,6 +17,12 @@ message DeleteProductByIDReq {
 }
 
 message DeleteProductByIDRes {}
+
+message DeactivateProductByIDReq {
+  string productID = 1;
+}
+
+message DeactivateProductByIDRes {}
 
 message UpdateProductByIDReq {
   Product product = 1;

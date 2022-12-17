@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/config"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/utils/logger"
 	"log"
 
 	"github.com/LeonardoBatistaCarias/valkyrie-product-writer-api/cmd/infrastructure/server"
@@ -13,6 +14,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	s := server.NewServer(cfg)
-	log.Fatal(s.Run())
+	logger := logger.NewAppLogger(cfg.Logger)
+	logger.InitLogger()
+
+	s := server.NewServer(logger, cfg)
+	logger.Fatal(s.Run())
 }
